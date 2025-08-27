@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node.js - Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #95a5a6;
+      --accent: #68a063;
+      --bg: #f8f9fa;
+      --text-dark: #2c3e50;
+      --text-light: #ecf0f1;
+      --card-bg: #ffffff;
+      --radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      width: 100%;
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      background-color: var(--card-bg);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--text-dark);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    nav a.active {
+      color: var(--accent);
+    }
+
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--accent);
+    }
+
+    .toggle-icon {
+      display: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 180px 2rem 100px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--secondary);
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background-color: var(--accent);
+      color: var(--text-light);
+      padding: 0.8rem 2rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(104, 160, 99, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(104, 160, 99, 0.4);
+    }
+
+    /* Services Section */
+    .services {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 5rem 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .section-title p {
+      color: var(--secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .service-icon {
+      width: 60px;
+      height: 60px;
+      background-color: rgba(104, 160, 99, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+      font-size: 1.5rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .service-card p {
+      color: var(--secondary);
+      margin-bottom: 1.5rem;
+      line-height: 1.7;
+    }
+
+    .read-more {
+      color: var(--accent);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+
+    .read-more:hover {
+      gap: 0.8rem;
+    }
+
+    /* Features Section */
+    .features {
+      background-color: var(--card-bg);
+      padding: 5rem 2rem;
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .features-image {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .features-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .feature-item {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .feature-icon {
+      color: var(--accent);
+      font-size: 1.2rem;
+      margin-top: 0.2rem;
+    }
+
+    .feature-text h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+    }
+
+    .feature-text p {
+      color: var(--secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 1rem;
+      left: 1.5rem;
+      font-size: 4rem;
+      color: rgba(104, 160, 99, 0.1);
+      font-family: serif;
+      line-height: 1;
+    }
+
+    .testimonial-content {
+      margin-bottom: 1.5rem;
+      color: var(--secondary);
+      font-style: italic;
+      position: relative;
+      z-index: 1;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .author-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .author-info h4 {
+      font-size: 1rem;
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .author-info p {
+      font-size: 0.85rem;
+      color: var(--secondary);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background-color: var(--primary);
+      padding: 5rem 2rem;
+      text-align: center;
+    }
+
+    .cta-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cta-section h2 {
+      font-size: 2rem;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-section p {
+      color: rgba(236, 240, 241, 0.8);
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .cta-button.outline {
+      background-color: transparent;
+      border: 2px solid var(--text-light);
+      color: var(--text-light);
+      margin-left: 1rem;
+    }
+
+    .cta-button.outline:hover {
+      background-color: var(--text-light);
+      color: var(--primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container {
+        padding: 0 1.5rem;
+      }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: var(--card-bg);
+        flex-direction: column;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-md);
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      .toggle-icon {
+        display: block;
+      }
+
+      .hero {
+        padding: 150px 1.5rem 80px;
+      }
+
+      .features-container {
+        grid-template-columns: 1fr;
+      }
+
+      .features-image {
+        order: -1;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero h1 {
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .hero p {
+      animation: fadeIn 0.8s ease-out 0.2s forwards;
+      opacity: 0;
+    }
+
+    .cta-button {
+      animation: fadeIn 0.8s ease-out 0.4s forwards;
+      opacity: 0;
+    }
+
+    .service-card {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+
+    .service-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .service-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .service-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    .features-container>* {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+
+    .features-list {
+      animation-delay: 0.2s;
+    }
+
+    .features-image {
+      animation-delay: 0.4s;
+    }
+
+    .testimonial-card {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+
+    .testimonial-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .testimonial-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .testimonial-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo"><a href="/">Node<span>.</span>Js</a></div>
+      <nav id="nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services" class="active">Services</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </nav>
+      <div class="toggle-icon" id="toggleBtn">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Our Node.js Services</h1>
+      <p>We offer comprehensive Node.js development services to help you build fast, scalable, and efficient web
+        applications that drive your business forward.</p>
+      <a href="#our-services" class="cta-button">Explore Services</a>
+    </section>
+
+    <section class="services" id="our-services">
+      <div class="section-title">
+        <h2>Our Services</h2>
+        <p>We provide end-to-end Node.js solutions tailored to your specific business needs</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-server"></i>
+          </div>
+          <h3>Backend Development</h3>
+          <p>Build robust, scalable backend systems with Node.js that can handle high traffic loads while maintaining
+            performance and reliability.</p>
+          <a href="#" class="read-more">Learn more <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Real-time Applications</h3>
+          <p>Create interactive real-time applications like chat systems, live updates, and collaboration tools using
+            Socket.io and Node.js.</p>
+          <a href="#" class="read-more">Learn more <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-exchange-alt"></i>
+          </div>
+          <h3>API Development</h3>
+          <p>Design and implement RESTful and GraphQL APIs that serve as the backbone for your web and mobile
+            applications.</p>
+          <a href="#" class="read-more">Learn more <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-microscope"></i>
+          </div>
+          <h3>Code Review & Audit</h3>
+          <p>Get expert analysis of your existing Node.js codebase to identify performance bottlenecks and security
+            vulnerabilities.</p>
+          <a href="#" class="read-more">Learn more <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-cloud"></i>
+          </div>
+          <h3>Cloud Integration</h3>
+          <p>Deploy and optimize your Node.js applications on cloud platforms like AWS, Azure, and Google Cloud.</p>
+          <a href="#" class="read-more">Learn more <i class="fas fa-arrow-right"></i></a>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <h3>Training & Mentoring</h3>
+          <p>Boost your team's Node.js skills with customized training sessions and ongoing mentoring from our experts.
+          </p>
+          <a href="#" class="read-more">Learn more <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="features-container">
+        <div class="features-list">
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="feature-text">
+              <h3>Performance Optimization</h3>
+              <p>We fine-tune your Node.js applications to ensure they run at peak efficiency, even under heavy loads.
+              </p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="feature-text">
+              <h3>Security First Approach</h3>
+              <p>All our solutions include built-in security measures to protect your applications from common
+                vulnerabilities.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="feature-text">
+              <h3>Continuous Integration</h3>
+              <p>We implement CI/CD pipelines to ensure smooth, automated testing and deployment processes.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">
+              <i class="fas fa-check-circle"></i>
+            </div>
+            <div class="feature-text">
+              <h3>Microservices Architecture</h3>
+              <p>We design modular systems that are easier to maintain, scale, and update as your needs evolve.</p>
+            </div>
+          </div>
+        </div>
+        <div class="features-image">
+          <img
+            src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
+            alt="Node.js development">
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <div class="section-title">
+        <h2>What Our Clients Say</h2>
+        <p>Hear from businesses that have transformed their operations with our Node.js solutions</p>
+      </div>
+      <div class="testimonial-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>Working with their Node.js team was a game-changer for our e-commerce platform. The performance
+              improvements alone justified the investment.</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-image">
+              <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Client">
+            </div>
+            <div class="author-info">
+              <h4>Sarah Williams</h4>
+              <p>CTO, ShopEase</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>The real-time features they implemented have significantly improved user engagement on our platform.
+              Highly recommend their services.</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-image">
+              <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Client">
+            </div>
+            <div class="author-info">
+              <h4>Michael Rodriguez</h4>
+              <p>Product Manager, CollabSpace</p>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>Their expertise in optimizing our Node.js backend reduced our server costs by 40% while improving
+              response times. Exceptional results.</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-image">
+              <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="Client">
+            </div>
+            <div class="author-info">
+              <h4>Jennifer Kim</h4>
+              <p>Director of Engineering, DataFlow</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-container">
+        <h2>Ready to Build with Node.js?</h2>
+        <p>Whether you're starting a new project or need help with an existing one, our Node.js experts are ready to
+          help you achieve your goals.</p>
+        <a href="/contact" class="cta-button">Get Started</a>
+        <a href="/contact" class="cta-button outline">Talk to an Expert</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const toggleBtn = document.getElementById('toggleBtn');
+    const nav = document.getElementById('nav');
+
+    toggleBtn.addEventListener('click', () => {
+      nav.classList.toggle('show');
+    });
+
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+      } else {
+        header.style.boxShadow = 'var(--shadow-sm)';
+      }
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+
+</html>

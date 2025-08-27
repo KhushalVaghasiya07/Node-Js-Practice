@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Node.js - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2c3e50;
+      --secondary: #95a5a6;
+      --accent: #68a063;
+      --bg: #f8f9fa;
+      --text-dark: #2c3e50;
+      --text-light: #ecf0f1;
+      --card-bg: #ffffff;
+      --radius: 8px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+      list-style: none;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-dark);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* Header */
+    header {
+      width: 100%;
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      background-color: var(--card-bg);
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+      letter-spacing: -0.5px;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    nav {
+      display: flex;
+      gap: 2rem;
+    }
+
+    nav a {
+      color: var(--text-dark);
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    nav a:hover {
+      color: var(--accent);
+    }
+
+    nav a.active {
+      color: var(--accent);
+    }
+
+    nav a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--accent);
+    }
+
+    .toggle-icon {
+      display: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 180px 2rem 100px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--secondary);
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background-color: var(--accent);
+      color: var(--text-light);
+      padding: 0.8rem 2rem;
+      border-radius: var(--radius);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      box-shadow: 0 4px 15px rgba(104, 160, 99, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(104, 160, 99, 0.4);
+    }
+
+    .cta-button.secondary {
+      background-color: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      box-shadow: none;
+      margin-left: 1rem;
+    }
+
+    .cta-button.secondary:hover {
+      background-color: rgba(104, 160, 99, 0.1);
+    }
+
+    /* Features Section */
+    .features {
+      padding: 5rem 2rem;
+      background-color: var(--card-bg);
+    }
+
+    .features-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .section-title h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .section-title p {
+      color: var(--secondary);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+      text-align: center;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .feature-icon {
+      width: 70px;
+      height: 70px;
+      background-color: rgba(104, 160, 99, 0.1);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      color: var(--accent);
+      font-size: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .feature-card:hover .feature-icon {
+      background-color: var(--accent);
+      color: var(--text-light);
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .feature-card p {
+      color: var(--secondary);
+      line-height: 1.7;
+    }
+
+    /* Stats Section */
+    .stats {
+      padding: 5rem 2rem;
+      background-color: var(--bg);
+    }
+
+    .stats-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      color: var(--secondary);
+      font-size: 0.95rem;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 5rem 2rem;
+      background-color: var(--card-bg);
+    }
+
+    .testimonials-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .testimonial-content {
+      margin-bottom: 1.5rem;
+      color: var(--secondary);
+      font-style: italic;
+      position: relative;
+    }
+
+    .testimonial-content::before {
+      content: '"';
+      font-size: 3rem;
+      color: rgba(104, 160, 99, 0.2);
+      position: absolute;
+      top: -1rem;
+      left: -1rem;
+      line-height: 1;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .author-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+    }
+
+    .author-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .author-info h4 {
+      color: var(--primary);
+      margin-bottom: 0.2rem;
+    }
+
+    .author-info p {
+      color: var(--secondary);
+      font-size: 0.85rem;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 5rem 2rem;
+      background-color: var(--accent);
+      text-align: center;
+    }
+
+    .cta-container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .cta-section h2 {
+      font-size: 2rem;
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-section p {
+      color: rgba(236, 240, 241, 0.9);
+      margin-bottom: 2rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-container {
+        padding: 0 1.5rem;
+      }
+
+      nav {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: var(--card-bg);
+        flex-direction: column;
+        padding: 1.5rem;
+        box-shadow: var(--shadow-md);
+      }
+
+      nav.show {
+        display: flex;
+      }
+
+      .toggle-icon {
+        display: block;
+      }
+
+      .hero {
+        padding: 150px 1.5rem 80px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .cta-button.secondary {
+        margin-left: 0;
+        margin-top: 1rem;
+      }
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero h1 {
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .hero p {
+      animation: fadeIn 0.8s ease-out 0.2s forwards;
+      opacity: 0;
+    }
+
+    .cta-button {
+      animation: fadeIn 0.8s ease-out 0.4s forwards;
+      opacity: 0;
+    }
+
+    .feature-card {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+
+    .feature-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .feature-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .feature-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    .stat-card {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+
+    .stat-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .stat-card:nth-child(2) {
+      animation-delay: 0.3s;
+    }
+
+    .stat-card:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    .stat-card:nth-child(4) {
+      animation-delay: 0.5s;
+    }
+
+    .testimonial-card {
+      animation: fadeIn 0.8s ease-out forwards;
+      opacity: 0;
+    }
+
+    .testimonial-card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .testimonial-card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .testimonial-card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header-container">
+      <div class="logo"><a href="/">Node<span>.</span>Js</a></div>
+      <nav id="nav">
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contact">Contact</a></li>
+      </nav>
+      <div class="toggle-icon" id="toggleBtn">
+        <i class="fas fa-bars"></i>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Build Scalable Applications with Node.js</h1>
+      <p>Discover the power of Node.js for building fast, scalable network applications. Our platform provides
+        everything you need to develop, deploy, and scale your JavaScript applications.</p>
+      <div>
+        <a href="#features" class="cta-button">Get Started</a>
+        <a href="/contact" class="cta-button secondary">Contact Us</a>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <div class="features-container">
+        <div class="section-title">
+          <h2>Why Choose Node.js?</h2>
+          <p>Node.js offers unique advantages that make it ideal for modern web applications</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>High Performance</h3>
+            <p>Node.js uses the V8 JavaScript engine and non-blocking I/O operations, making it extremely fast and
+              efficient for data-intensive real-time applications.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-expand"></i>
+            </div>
+            <h3>Scalability</h3>
+            <p>Built with scalability in mind, Node.js applications can handle thousands of concurrent connections with
+              minimal overhead on a single process.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-code"></i>
+            </div>
+            <h3>Fullstack JavaScript</h3>
+            <p>Use JavaScript on both client and server sides, reducing context switching and making development more
+              efficient and consistent.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stats-container">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-number">1.5M+</div>
+            <div class="stat-label">Developers</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">98%</div>
+            <div class="stat-label">Fortune 500 Companies</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">50B+</div>
+            <div class="stat-label">Downloads</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">200%</div>
+            <div class="stat-label">Faster Development</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="testimonials">
+      <div class="testimonials-container">
+        <div class="section-title">
+          <h2>What Developers Say</h2>
+          <p>Hear from developers who have transformed their applications with Node.js</p>
+        </div>
+        <div class="testimonials-grid">
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>Node.js completely transformed our backend infrastructure. We reduced our response times by 60% while
+                handling 3x more traffic than before.</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">
+                <img src="https://randomuser.me/api/portraits/women/43.jpg" alt="Sarah Johnson">
+              </div>
+              <div class="author-info">
+                <h4>Sarah Johnson</h4>
+                <p>CTO at TechCorp</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>The transition to Node.js was seamless for our team. Being able to use JavaScript across our entire
+                stack has dramatically improved our productivity.</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Michael Chen">
+              </div>
+              <div class="author-info">
+                <h4>Michael Chen</h4>
+                <p>Lead Developer at StartupX</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <div class="testimonial-content">
+              <p>We've been able to build real-time features we never thought possible before Node.js. The performance
+                and scalability are unmatched.</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="author-avatar">
+                <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Emma Wilson">
+              </div>
+              <div class="author-info">
+                <h4>Emma Wilson</h4>
+                <p>Product Manager at AppWorks</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section">
+      <div class="cta-container">
+        <h2>Ready to Build with Node.js?</h2>
+        <p>Join millions of developers and companies who are building the future with Node.js</p>
+        <div class="cta-buttons">
+          <a href="/contact" class="cta-button">Get Started</a>
+          <a href="/blog" class="cta-button secondary">Learn More</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const toggleBtn = document.getElementById('toggleBtn');
+    const nav = document.getElementById('nav');
+
+    toggleBtn.addEventListener('click', () => {
+      nav.classList.toggle('show');
+    });
+
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 50) {
+        header.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+      } else {
+        header.style.boxShadow = 'var(--shadow-sm)';
+      }
+    });
+
+    // Close mobile menu when clicking a link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('show');
+      });
+    });
+
+    // Simple counter animation for stats
+    const statNumbers = document.querySelectorAll('.stat-number');
+    if (statNumbers) {
+      statNumbers.forEach(stat => {
+        const target = parseInt(stat.textContent.replace(/[+,%]/g, ''));
+        const suffix = stat.textContent.match(/[+,%]/g) ? stat.textContent.match(/[+,%]/g)[0] : '';
+        let count = 0;
+        const duration = 2000;
+        const increment = target / (duration / 16);
+
+        const updateCount = () => {
+          count += increment;
+          if (count < target) {
+            stat.textContent = Math.floor(count) + suffix;
+            requestAnimationFrame(updateCount);
+          } else {
+            stat.textContent = target + suffix;
+          }
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            updateCount();
+            observer.unobserve(stat);
+          }
+        });
+
+        observer.observe(stat);
+      });
+    }
+  </script>
+</body>
+
+</html>

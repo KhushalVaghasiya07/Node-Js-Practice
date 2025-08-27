@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Details</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #f7faff, #e9f5ff);
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      max-width: 950px;
+      margin: 50px auto;
+      padding: 30px;
+      background: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    form table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+    }
+
+    form td {
+      padding: 12px 16px;
+    }
+
+    label {
+      font-weight: 500;
+      color: #444;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border 0.3s ease;
+      background-color: #f9f9f9;
+    }
+
+    input[type="text"]:focus {
+      border-color: #4CAF50;
+      outline: none;
+      background-color: #ffffff;
+    }
+
+    button {
+      background: linear-gradient(135deg, #4CAF50, #43a047);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 500;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, #43a047, #388e3c);
+    }
+
+    table.student-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .student-table th,
+    .student-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+
+    .student-table th {
+      background-color: #dff1ff;
+      color: #2c3e50;
+      font-weight: 600;
+    }
+
+    .student-table tr:nth-child(even) {
+      background-color: #f9fbfc;
+    }
+
+    .student-table tr:hover {
+      background-color: #eef6ff;
+    }
+
+    .action-buttons button {
+      background-color: #2196f3;
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .action-buttons button:hover {
+      background-color: #1e88e5;
+    }
+
+    .action-buttons .delete-btn {
+      background-color: #e74c3c;
+    }
+
+    .action-buttons .delete-btn:hover {
+      background-color: #c0392b;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+        padding: 20px;
+      }
+
+      input[type="text"],
+      button {
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+    <h1 align="center">Student Registration</h1>
+
+    <form method="post" action="/add-student">
+      <table>
+        <tr>
+          <td><label>First Name</label></td>
+          <td><input type="text" name="firstname" required /></td>
+        </tr>
+        <tr>
+          <td><label>Last Name</label></td>
+          <td><input type="text" name="lastname" required /></td>
+        </tr>
+        <tr>
+          <td><label>Age</label></td>
+          <td><input type="text" name="age" required /></td>
+        </tr>
+        <tr>
+          <td><label>Gender</label></td>
+          <td><input type="text" name="gender" required /></td>
+        </tr>
+        <tr>
+          <td><label>Email</label></td>
+          <td><input type="text" name="email" required /></td>
+        </tr>
+        <tr>
+          <td><label>Contact Number</label></td>
+          <td><input type="text" name="contactNo" required /></td>
+        </tr>
+        <tr>
+          <td colspan="2" align="center">
+            <button type="submit">Submit</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+
+    <h1 align="center">All Students</h1>
+    <table class="student-table">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Age</th>
+          <th>Email</th>
+          <th>Contact No</th>
+          <th colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% students.forEach((student, i) => { %>
+          <tr>
+            <td>
+              <%= i + 1 %>
+            </td>
+            <td>
+              <%= student.firstname %>
+            </td>
+            <td>
+              <%= student.lastname %>
+            </td>
+            <td>
+              <%= student.age %>
+            </td>
+            <td>
+              <%= student.email %>
+            </td>
+            <td>
+              <%= student.contactNo %>
+            </td>
+            <td class="action-buttons">
+              <a href="/edit-student/<%= student.id %>">
+                <button>Edit</button>
+              </a>
+            </td>
+            <td class="action-buttons">
+              <a href="/remove-student/<%= student.id %>">
+                <button class="delete-btn">Delete</button>
+              </a>
+            </td>
+          </tr>
+          <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+
+</html>

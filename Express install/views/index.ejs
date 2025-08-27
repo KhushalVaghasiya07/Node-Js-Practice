@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <a href="/">Home</a>
+  <a href="/add_student">Add Student</a>
+
+  <h1>Home Page</h1>
+  <table border="1" align="center">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Mobile No</th>
+        <th colspan="2">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% students.map(stu => { %>
+        <tr>
+          <th><%=stu.id %></th>
+          <th><%=stu.name %></th>
+          <th><%=stu.email %></th>
+          <th><%=stu.MobileNo %></th>
+          <th><a href="/delete-data/<%= stu.id %>" ><button>Delete</button></a></th>
+          <th><a href="/edit-data/<%= stu.id %>"><button>Edit</button></a></th>
+        </tr>
+      <% }) %>
+    </tbody>
+
+  </table>
+
+</body>
+
+</html>
