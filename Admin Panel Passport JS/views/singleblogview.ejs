@@ -1,0 +1,480 @@
+<%- include("header") %>
+
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">Blog Details</h4>
+                    <div class="ml-auto text-right">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item"><a href="/blog/viewallblog">Blogs</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <%= blogs.title %>
+                                </li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <!-- Main Blog Content -->
+                    <div class="single-blog-container">
+                        <!-- Blog Header -->
+                        <div class="blog-header">
+                            <div class="title-section">
+                                <h1 class="blog-title">
+                                    <%= blogs.title %>
+                                </h1>
+                                <span class="category-badge <%= blogs.category.toLowerCase() %>-badge">
+                                    <%= blogs.category %>
+                                </span>
+                            </div>
+                            <div class="blog-meta">
+                                <div class="author-info">
+                                    <div class="author-avatar">
+                                        <img src="<%= blogs.authImg %>" alt="Author">
+                                    </div>
+                                    <div class="meta-details">
+                                        <span class="author-name">By <%= blogs.authname %></span>
+                                        <span class="publish-date">
+                                            <%= new Date(blogs.createdAt || Date.now()).toLocaleDateString('en-US', {
+                                                year: 'numeric' , month: 'long' , day: 'numeric' }) %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Blog Image -->
+                        <div class="blog-image-container">
+                            <img src="<%= blogs.blogImg %>" alt="Blog Image" class="blog-image">
+                        </div>
+
+                        <!-- Blog Content -->
+                        <div class="blog-content">
+                            <div class="blog-description">
+                                <% blogs.description.split(/\n+/).forEach(function(paragraph) { %>
+                                    <p class="lead">
+                                        <%= paragraph %>
+                                    </p>
+                                    <% }) %>
+                            </div>
+
+                            <!-- Back Button -->
+                            <div class="blog-actions">
+                                <a href="/blog/viewallblog" class="back-to-blogs-btn">
+                                    <i class="fas fa-arrow-left"></i>
+                                    Back to Blogs
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="latest-blogs-section">
+                        <div class="section-header">
+                            <h2>Latest Blogs</h2>
+                            <p>Discover more interesting content</p>
+                        </div>
+
+                        <div class="latest-blogs-grid">
+                            <% latestBlogs.forEach(function(blog) { %>
+                                <div class="blog-card">
+                                    <div class="card-image">
+                                        <img src="<%= blog.blogImg %>" alt="Blog Image">
+                                        <span class="category-tag <%= blog.category.toLowerCase() %>-tag">
+                                            <%= blog.categoary %>
+                                        </span>
+                                    </div>
+                                    <div class="card-content">
+                                        <h3 class="card-title">
+                                            <%= blog.title %>
+                                        </h3>
+                                        <p class="card-excerpt">
+                                            <%= blog.description.length> 100 ? blog.description.substring(0, 100) +
+                                                "..." : blog.description
+                                                %>
+                                        </p>
+                                        <a href="/blog/singleblogview/<%= blog._id %>" class="read-more">Read More</a>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <%- include("footer") %>
+
+            <style>
+                /* Single Blog Container */
+                .single-blog-container {
+                    background: #fff;
+                    border-radius: 12px;
+                    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+                    overflow: hidden;
+                    margin-bottom: 40px;
+                }
+
+                /* Blog Header */
+                .blog-header {
+                    padding: 40px 40px 20px;
+                }
+
+                .title-section {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-start;
+                    margin-bottom: 20px;
+                }
+
+                .blog-title {
+                    font-size: 2.5rem;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    line-height: 1.2;
+                    margin: 0;
+                    flex: 1;
+                    padding-right: 20px;
+                }
+
+                .category-badge {
+                    padding: 8px 16px;
+                    border-radius: 20px;
+                    font-size: 0.85rem;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                    white-space: nowrap;
+                }
+
+                /* Category-specific colors */
+                .technology-badge {
+                    background-color: rgba(40, 183, 121, 0.1);
+                    color: #28b779;
+                }
+
+                .travel-badge {
+                    background-color: rgba(218, 84, 46, 0.1);
+                    color: #da542e;
+                }
+
+                .food-badge {
+                    background-color: rgba(255, 184, 72, 0.1);
+                    color: #ffb848;
+                }
+
+                .lifestyle-badge {
+                    background-color: rgba(40, 183, 121, 0.1);
+                    color: #28b779;
+                }
+
+                .sports-badge {
+                    background-color: rgba(218, 84, 46, 0.1);
+                    color: #da542e;
+                }
+
+                .education-badge {
+                    background-color: rgba(255, 184, 72, 0.1);
+                    color: #ffb848;
+                }
+
+                /* Blog Meta */
+                .blog-meta {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .author-info {
+                    display: flex;
+                    align-items: center;
+                }
+
+                .author-avatar {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin-right: 15px;
+                    border: 2px solid #eaeaea;
+                }
+
+                .author-avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .meta-details {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .author-name {
+                    font-weight: 600;
+                    color: #2c3e50;
+                    font-size: 1rem;
+                }
+
+                .publish-date {
+                    color: #7f8c8d;
+                    font-size: 0.9rem;
+                }
+
+                /* Blog Image */
+                .blog-image-container {
+                    width: 100%;
+                    margin: 0;
+                }
+
+                .blog-image {
+                    width: 100%;
+                    height: 450px;
+                    object-fit: cover;
+                }
+
+                /* Blog Content */
+                .blog-content {
+                    padding: 40px;
+                }
+
+                .blog-description {
+                    font-size: 1.1rem;
+                    line-height: 1.8;
+                    color: #2c3e50;
+                    margin-bottom: 40px;
+                }
+
+                /* Back Button */
+                .blog-actions {
+                    text-align: center;
+                    padding-top: 20px;
+                    border-top: 1px solid #eaeaea;
+                }
+
+                .back-to-blogs-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 12px 25px;
+                    background: #28b779;
+                    color: white;
+                    text-decoration: none;
+                    border-radius: 6px;
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                }
+
+                .back-to-blogs-btn:hover {
+                    background: #219864;
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(40, 183, 121, 0.3);
+                }
+
+                .back-to-blogs-btn i {
+                    margin-right: 8px;
+                }
+
+                /* Latest Blogs Section */
+                .latest-blogs-section {
+                    margin-bottom: 40px;
+                }
+
+                .section-header {
+                    text-align: center;
+                    margin-bottom: 40px;
+                }
+
+                .section-header h2 {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    margin-bottom: 10px;
+                }
+
+                .section-header p {
+                    color: #7f8c8d;
+                    font-size: 1.1rem;
+                }
+
+                .latest-blogs-grid {
+                    display: grid;
+                    grid-template-columns: repeat(3, 1fr);
+                    gap: 25px;
+                }
+
+                /* Blog Card */
+                .blog-card {
+                    background: #fff;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+                    height: 100%;
+                }
+
+                .blog-card:hover {
+                    transform: translateY(-7px);
+                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                }
+
+                .card-image {
+                    height: 200px;
+                    overflow: hidden;
+                    position: relative;
+                }
+
+                .card-image img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                .blog-card:hover .card-image img {
+                    transform: scale(1.08);
+                }
+
+                .category-tag {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    color: white;
+                    padding: 5px 12px;
+                    border-radius: 20px;
+                    font-size: 0.75rem;
+                    font-weight: 600;
+                    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+                }
+
+                .technology-tag {
+                    background-color: #28b779;
+                }
+
+                .travel-tag {
+                    background-color: #da542e;
+                }
+
+                .food-tag {
+                    background-color: #ffb848;
+                }
+
+                .card-content {
+                    padding: 20px;
+                }
+
+                .card-title {
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    color: #2c3e50;
+                    margin-bottom: 12px;
+                    line-height: 1.4;
+                }
+
+                .card-excerpt {
+                    color: #7f8c8d;
+                    margin-bottom: 20px;
+                    line-height: 1.6;
+                    font-size: 0.95rem;
+                }
+
+                .read-more {
+                    display: inline-block;
+                    color: #28b779;
+                    font-weight: 500;
+                    text-decoration: none;
+                    transition: all 0.3s ease;
+                }
+
+                .read-more:hover {
+                    color: #219864;
+                }
+
+                /* Responsive Design */
+                @media (max-width: 992px) {
+                    .latest-blogs-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+
+                    .blog-title {
+                        font-size: 2rem;
+                    }
+
+                    .blog-image {
+                        height: 350px;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .title-section {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+
+                    .category-badge {
+                        margin-top: 15px;
+                    }
+
+                    .blog-header,
+                    .blog-content {
+                        padding: 25px;
+                    }
+
+                    .blog-title {
+                        font-size: 1.8rem;
+                        padding-right: 0;
+                    }
+
+                    .blog-image {
+                        height: 300px;
+                    }
+
+                    .latest-blogs-grid {
+                        grid-template-columns: 1fr;
+                    }
+                }
+
+                @media (max-width: 576px) {
+                    .blog-title {
+                        font-size: 1.5rem;
+                    }
+
+                    .blog-image {
+                        height: 250px;
+                    }
+
+                    .blog-description {
+                        font-size: 1rem;
+                    }
+
+                    .author-info {
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+
+                    .author-avatar {
+                        margin-bottom: 10px;
+                        margin-right: 0;
+                    }
+                }
+            </style>

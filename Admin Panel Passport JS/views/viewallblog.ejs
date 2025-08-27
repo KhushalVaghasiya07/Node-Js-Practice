@@ -1,0 +1,479 @@
+<%- include("header") %>
+
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">Blog Posts</h4>
+                    <div class="ml-auto text-right">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Blog</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="section-header text-center mb-5">
+                                <h2 class="section-title">Latest Blogs</h2>
+                                <p class="section-subtitle">Stay updated with fresh insights, stories, and trends</p>
+                            </div>
+
+                            <div class="category-filters mb-5">
+                                <a href="/blog/viewAllblog" class="filter-btn <%= category === '' ? 'active' : '' %>"
+                                    style="--btn-color: #28b779">All</a>
+                                <a href="/blog/viewAllblog?category=Travel"
+                                    class="filter-btn <%= category === 'Travel' ? 'active' : '' %>"
+                                    style="--btn-color: #da542e">Travel</a>
+                                <a href="/blog/viewAllblog?category=Food"
+                                    class="filter-btn <%= category === 'Food' ? 'active' : '' %>"
+                                    style="--btn-color: #ffb848">Food</a>
+                                <a href="/blog/viewAllblog?category=Lifestyle"
+                                    class="filter-btn <%= category === 'Lifestyle' ? 'active' : '' %>"
+                                    style="--btn-color: #28b779">Lifestyle</a>
+                                <a href="/blog/viewAllblog?category=Sports"
+                                    class="filter-btn <%= category === 'Sports' ? 'active' : '' %>"
+                                    style="--btn-color: #da542e">Sports</a>
+                                <a href="/blog/viewAllblog?category=Education"
+                                    class="filter-btn <%= category === 'Education' ? 'active' : '' %>"
+                                    style="--btn-color: #ffb848">Education</a>
+                                <a href="/blog/viewAllblog?category=Technology"
+                                    class="filter-btn <%= category === 'Technology' ? 'active' : '' %>"
+                                    style="--btn-color: #28b779">Technology</a>
+                            </div>
+                        </div>
+
+                        <div class="card-body pt-0">
+                            <% if (blogs.length===0) { %>
+                                <div class="empty-state">
+                                    <i class="fas fa-file-alt"></i>
+                                    <p>No blogs found in this category.</p>
+                                </div>
+                                <% } else { %>
+                                    <div class="blog-grid">
+                                        <% blogs.forEach((blog, i)=> { %>
+                                            <article class="blog-card">
+                                                <div class="card-image">
+                                                    <img src="<%= blog.blogImg %>" alt="Blog Image" class="blog-img">
+                                                    <span class="category-tag <%= blog.category.toLowerCase() %>-tag">
+                                                        <%= blog.category %>
+                                                    </span>
+                                                    <div class="card-overlay"></div>
+                                                </div>
+                                                <div class="card-content">
+                                                    <h3 class="card-title">
+                                                        <%= blog.title %>
+                                                    </h3>
+                                                    <p class="card-excerpt">
+                                                        <%= blog.description.substring(0,100) %>...
+                                                    </p>
+                                                    <div class="card-meta">
+                                                        <div class="author-avatar">
+                                                            <img src="<%= blog.authImg %>"
+                                                                alt="Author">
+                                                        </div>
+                                                        <div class="meta-details">
+                                                            <span class="author-name">
+                                                                <%= blog.authname %>
+                                                            </span>
+                                                            <span class="publish-date">
+                                                                <%= new Date(blog.createdAt ||
+                                                                    Date.now()).toLocaleDateString() %>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <a href="/blog/singleblogview/<%= blog._id %>"
+                                                        class="read-more">Read More <i
+                                                            class="fas fa-arrow-right"></i></a>
+                                                </div>
+                                            </article>
+                                            <% }) %>
+                                    </div>
+                                    <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End PAge Content -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+
+        <%- include("footer") %>
+
+            <style>
+                body {
+                    background-color: #f8f9fa;
+                }
+
+                .container-fluid {
+                    background-color: #f8f9fa;
+                }
+
+                .card {
+                    border: none;
+                    border-radius: 10px;
+                    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+                }
+
+                .card-body {
+                    padding: 30px;
+                }
+
+                .section-header {
+                    text-align: center;
+                    margin-bottom: 40px;
+                }
+
+                .section-title {
+                    font-size: 28px;
+                    font-weight: 600;
+                    color: #343a40;
+                    margin-bottom: 15px;
+                    position: relative;
+                    padding-bottom: 15px;
+                }
+
+                .section-title::after {
+                    content: '';
+                    position: absolute;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 60px;
+                    height: 3px;
+                    background: linear-gradient(to right, #28b779, #da542e, #ffb848);
+                }
+
+                .section-subtitle {
+                    font-size: 16px;
+                    color: #6c757d;
+                    max-width: 600px;
+                    margin: 0 auto;
+                    line-height: 1.6;
+                }
+
+                /* Category Filters */
+                .category-filters {
+                    display: flex;
+                    justify-content: center;
+                    flex-wrap: wrap;
+                    gap: 10px;
+                    margin-bottom: 40px;
+                }
+
+                .filter-btn {
+                    padding: 10px 22px;
+                    background: white;
+                    border: 1px solid var(--btn-color);
+                    border-radius: 25px;
+                    font-weight: 500;
+                    color: var(--btn-color);
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    text-decoration: none;
+                    display: inline-block;
+                    font-size: 14px;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+                }
+
+                .filter-btn:hover,
+                .filter-btn.active {
+                    background: var(--btn-color);
+                    color: white;
+                    border-color: var(--btn-color);
+                    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+                    transform: translateY(-2px);
+                }
+
+                /* Blog Grid */
+                .blog-grid {
+                    display: grid;
+                    grid-template-columns: repeat(4, 1fr);
+                    gap: 25px;
+                }
+
+                /* Blog Card */
+                .blog-card {
+                    background: white;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                }
+
+                .blog-card:hover {
+                    transform: translateY(-7px);
+                    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+                }
+
+                .card-image {
+                    height: 220px;
+                    overflow: hidden;
+                    position: relative;
+                }
+
+                .blog-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.5s ease;
+                }
+
+                .card-overlay {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.03) 100%);
+                    opacity: 0;
+                    transition: opacity 0.3s ease;
+                }
+
+                .blog-card:hover .blog-img {
+                    transform: scale(1.08);
+                }
+
+                .blog-card:hover .card-overlay {
+                    opacity: 1;
+                }
+
+                .category-tag {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    color: white;
+                    padding: 6px 14px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+                    z-index: 2;
+                }
+
+                /* Category-specific colors */
+                .technology-tag {
+                    background-color: #28b779;
+                }
+
+                .travel-tag {
+                    background-color: #da542e;
+                }
+
+                .food-tag {
+                    background-color: #ffb848;
+                }
+
+                .lifestyle-tag {
+                    background-color: #28b779;
+                }
+
+                .sports-tag {
+                    background-color: #da542e;
+                }
+
+                .education-tag {
+                    background-color: #ffb848;
+                }
+
+                .card-content {
+                    padding: 24px;
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .card-title {
+                    font-size: 18px;
+                    font-weight: 600;
+                    color: #343a40;
+                    margin-bottom: 12px;
+                    line-height: 1.4;
+                    transition: color 0.3s ease;
+                }
+
+                .blog-card:hover .card-title {
+                    color: #495057;
+                }
+
+                .card-excerpt {
+                    color: #6c757d;
+                    margin-bottom: 20px;
+                    line-height: 1.6;
+                    flex-grow: 1;
+                    font-size: 14.5px;
+                }
+
+                .card-meta {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 20px;
+                }
+
+                .author-avatar {
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    margin-right: 12px;
+                    box-shadow: 0 2px 5px rgba(218, 84, 46, 0.3);
+                }
+
+                .author-avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .meta-details {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .author-name {
+                    font-weight: 500;
+                    color: #343a40;
+                    font-size: 14px;
+                }
+
+                .publish-date {
+                    font-size: 12px;
+                    color: #868e96;
+                }
+
+                .read-more {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 10px 22px;
+                    background: #28b779;
+                    color: white;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                    font-size: 14px;
+                    box-shadow: 0 3px 8px rgba(40, 183, 121, 0.3);
+                }
+
+                .read-more:hover {
+                    color: #fff;
+                    background: #0c5d3a;
+                    box-shadow: 0 5px 15px rgba(40, 183, 121, 0.4);
+                    transform: translateY(-2px);
+                }
+
+                .read-more i {
+                    margin-left: 6px;
+                    font-size: 12px;
+                    transition: transform 0.3s ease;
+                }
+
+                .read-more:hover i {
+                    transform: translateX(3px);
+                }
+
+                /* Empty State */
+                .empty-state {
+                    text-align: center;
+                    padding: 60px 20px;
+                    grid-column: 1 / -1;
+                }
+
+                .empty-state i {
+                    font-size: 60px;
+                    color: #dee2e6;
+                    margin-bottom: 20px;
+                }
+
+                .empty-state p {
+                    color: #868e96;
+                    font-size: 16px;
+                }
+
+                /* Responsive Design */
+                @media (max-width: 1200px) {
+                    .blog-grid {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                }
+
+                @media (max-width: 992px) {
+                    .blog-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .blog-grid {
+                        grid-template-columns: 1fr;
+                        max-width: 500px;
+                        margin: 0 auto;
+                    }
+
+                    .category-filters {
+                        justify-content: center;
+                    }
+
+                    .section-title {
+                        font-size: 24px;
+                    }
+
+                    .section-subtitle {
+                        font-size: 14px;
+                    }
+
+                    .card-body {
+                        padding: 20px;
+                    }
+                }
+
+                @media (max-width: 576px) {
+                    .card-content {
+                        padding: 18px;
+                    }
+
+                    .card-image {
+                        height: 200px;
+                    }
+
+                    .filter-btn {
+                        padding: 8px 16px;
+                        font-size: 13px;
+                    }
+
+                    .category-filters {
+                        gap: 8px;
+                    }
+                }
+            </style>

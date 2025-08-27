@@ -1,0 +1,154 @@
+<%- include("header") %>
+
+    <div class="page-wrapper">
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">Edit User</h4>
+                    <div class="ml-auto text-right">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Edit User</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <form class="form-horizontal" action="/users/editUser/<%= editUser._id %>" method="post"
+                            enctype="multipart/form-data">
+
+                            <div class="card-body">
+                                <h4 class="card-title">User Information</h4>
+
+                                <!-- First Name -->
+                                <div class="form-group row">
+                                    <label for="fname" class="col-sm-3 text-right control-label col-form-label">First
+                                        Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="firstname" id="fname"
+                                            value="<%= editUser.firstname %>" placeholder="Enter First Name">
+                                    </div>
+                                </div>
+
+                                <!-- Last Name -->
+                                <div class="form-group row">
+                                    <label for="lname" class="col-sm-3 text-right control-label col-form-label">Last
+                                        Name</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="lastname" id="lname"
+                                            value="<%= editUser.lastname %>" placeholder="Enter Last Name">
+                                    </div>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-group row">
+                                    <label for="email"
+                                        class="col-sm-3 text-right control-label col-form-label">Email</label>
+                                    <div class="col-sm-9">
+                                        <input type="email" class="form-control" name="email" id="email"
+                                            value="<%= editUser.email %>" placeholder="Enter Email">
+                                    </div>
+                                </div>
+
+                                <!-- Password -->
+                                <div class="form-group row">
+                                    <label for="password"
+                                        class="col-sm-3 text-right control-label col-form-label">Password</label>
+                                    <div class="col-sm-9">
+                                        <input type="password" class="form-control" name="password" id="password"
+                                            value="<%= editUser.password %>" placeholder="Enter Password">
+                                    </div>
+                                </div>
+
+                                <!-- Contact Number -->
+                                <div class="form-group row">
+                                    <label for="contactno"
+                                        class="col-sm-3 text-right control-label col-form-label">Contact No</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="contactno" id="contactno"
+                                            value="<%= editUser.contactno %>" placeholder="Enter Contact Number">
+                                    </div>
+                                </div>
+
+                                <!-- Gender -->
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Gender</label>
+                                    <div class="col-md-9">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="genderMale"
+                                                name="gender" value="Male" <%=editUser.gender==='Male' ? 'checked' : ''
+                                                %>>
+                                            <label class="custom-control-label" for="genderMale">Male</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="genderFemale"
+                                                name="gender" value="Female" <%=editUser.gender==='Female' ? 'checked'
+                                                : '' %>>
+                                            <label class="custom-control-label" for="genderFemale">Female</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hobbies (Checkboxes) -->
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Hobbies</label>
+                                    <div class="col-md-9">
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" id="hobbyTraveling"
+                                                name="hobbies" value="Traveling" <%=editUser.hobbies &&
+                                                editUser.hobbies.includes('Traveling') ? 'checked' : '' %>>
+                                            <label class="custom-control-label" for="hobbyTraveling">Traveling</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" id="hobbyReading"
+                                                name="hobbies" value="Reading" <%=editUser.hobbies &&
+                                                editUser.hobbies.includes('Reading') ? 'checked' : '' %>>
+                                            <label class="custom-control-label" for="hobbyReading">Reading</label>
+                                        </div>
+                                        <div class="custom-control custom-checkbox mr-sm-2">
+                                            <input type="checkbox" class="custom-control-input" id="hobbyMusic"
+                                                name="hobbies" value="Music" <%=editUser.hobbies &&
+                                                editUser.hobbies.includes('Music') ? 'checked' : '' %>>
+                                            <label class="custom-control-label" for="hobbyMusic">Music</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- File Upload + Current Image Preview -->
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label">Profile
+                                        Image</label>
+                                    <div class="col-md-9">
+                                        <div class="custom-file">
+                                            <input type="file" class="custom-file-input" name="image" id="profileImage">
+                                            <label class="custom-file-label" for="profileImage">Choose file...</label>
+                                            <div class="invalid-feedback">Invalid file</div>
+                                        </div>
+                                        <% if (editUser.image) { %>
+                                            <div class="mt-3">
+                                                <img src="<%= editUser.image %>" alt="User Image" height="80">
+                                            </div>
+                                            <% } %>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-top">
+                                <div class="card-body">
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <%- include("footer") %>

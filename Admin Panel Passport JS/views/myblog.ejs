@@ -1,0 +1,579 @@
+<%- include("header") %>
+
+    <!-- ============================================================== -->
+    <!-- Page wrapper  -->
+    <!-- ============================================================== -->
+    <div class="page-wrapper">
+        <!-- ============================================================== -->
+        <!-- Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <div class="page-breadcrumb">
+            <div class="row">
+                <div class="col-12 d-flex no-block align-items-center">
+                    <h4 class="page-title">My Blog</h4>
+                    <div class="ml-auto text-right">
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">My Blog</li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Bread crumb and right sidebar toggle -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Container fluid  -->
+        <!-- ============================================================== -->
+        <div class="container-fluid">
+            <!-- ============================================================== -->
+            <!-- Start Page Content -->
+            <!-- ============================================================== -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="my-blog-container">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">My Blog Posts</h5>
+                                <div class="header-actions">
+                                    <a href="/blog/addBlog" class="btn btn-primary">
+                                        <i class="fas fa-plus"></i> Create New Post
+                                    </a>
+                                    <div class="search-box">
+                                        <input type="text" id="blogSearch" placeholder="Search my posts...">
+                                        <i class="fas fa-search"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <% if (blogs.length===0) { %>
+                                    <div class="empty-state">
+                                        <div class="empty-icon">
+                                            <i class="fas fa-blog"></i>
+                                        </div>
+                                        <h4>No Blog Posts Yet</h4>
+                                        <p>You haven't created any blog posts yet. Start sharing your thoughts with the
+                                            world!</p>
+                                        <a href="/blog/addBlog" class="btn btn-primary">
+                                            <i class="fas fa-plus"></i> Create Your First Post
+                                        </a>
+                                    </div>
+                                    <% } else { %>
+                                        <div class="blog-grid">
+                                            <% blogs.forEach((blog, i)=> { %>
+                                                <div class="blog-card">
+                                                    <div class="card-image">
+                                                        <img src="<%= blog.blogImg %>" alt="Blog Image"
+                                                            class="blog-img">
+                                                        <span
+                                                            class="category-badge <%= blog.category.toLowerCase() %>-badge">
+                                                            <%= blog.category %>
+                                                        </span>
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <h3 class="card-title">
+                                                            <%= blog.title %>
+                                                        </h3>
+                                                        <p class="card-excerpt">
+                                                            <%= blog.description.substring(0, 100) %>...
+                                                        </p>
+                                                        <div class="card-meta">
+                                                            <div class="author-info">
+                                                                <div class="author-avatar">
+                                                                    <img src="<%= blog.authImg %>" alt="Author">
+                                                                </div>
+                                                                <div class="meta-details">
+                                                                    <span class="author-name">
+                                                                        <%= blog.authname %>
+                                                                    </span>
+                                                                    <span class="publish-date">
+                                                                        <%= new Date(blog.createdAt ||
+                                                                            Date.now()).toLocaleDateString('en-US', {
+                                                                            year: 'numeric' , month: 'short' ,
+                                                                            day: 'numeric' }) %>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-footer">
+                                                            <a href="/blog/singleblogview/<%= blog._id %>"
+                                                                class="read-more-btn">
+                                                                Read More <i class="fas fa-arrow-right"></i>
+                                                            </a>
+                                                            <div class="action-buttons">
+                                                                <a href="/blog/editblog/<%= blog._id %>"
+                                                                    class="action-btn edit-btn" title="Edit Post">
+                                                                    <i class="far fa-edit"></i>
+                                                                </a>
+                                                                <a href="/blog/blogdelete/<%= blog._id %>"
+                                                                    class="action-btn delete-btn" title="Delete Post"
+                                                                    onclick="return confirm('Are you sure you want to delete this post?')">
+                                                                    <i class="fas fa-trash"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% }) %>
+                                        </div>
+                                        <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ============================================================== -->
+            <!-- End PAge Content -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Container fluid  -->
+        <!-- ============================================================== -->
+
+        <%- include("footer") %>
+
+            <style>
+                /* My Blog Container */
+                .my-blog-container {
+                    background: #fff;
+                    border-radius: 12px;
+                    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.06);
+                    overflow: hidden;
+                    margin-bottom: 40px;
+                }
+
+                /* Card Header */
+                .card-header {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 25px 30px;
+                    border-bottom: 1px solid #eaeaea;
+                    background: #fff;
+                }
+
+                .card-title {
+                    font-size: 1.5rem;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    margin: 0;
+                }
+
+                .header-actions {
+                    display: flex;
+                    align-items: center;
+                    gap: 15px;
+                }
+
+                .btn-primary {
+                    background: linear-gradient(135deg, #28b779, #219864);
+                    border: none;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    color: white;
+                    font-weight: 600;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    text-decoration: none;
+                    box-shadow: 0 4px 15px rgba(40, 183, 121, 0.3);
+                }
+
+                .btn-primary:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 25px rgba(40, 183, 121, 0.4);
+                }
+
+                .search-box {
+                    position: relative;
+                }
+
+                .search-box input {
+                    padding: 12px 15px 12px 40px;
+                    border-radius: 8px;
+                    border: 1px solid #e0e0e0;
+                    width: 250px;
+                    transition: all 0.3s ease;
+                    font-size: 14px;
+                }
+
+                .search-box input:focus {
+                    outline: none;
+                    border-color: #28b779;
+                    box-shadow: 0 0 0 3px rgba(40, 183, 121, 0.1);
+                }
+
+                .search-box .fa-search {
+                    position: absolute;
+                    left: 15px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    color: #7f8c8d;
+                }
+
+                /* Blog Grid */
+                .blog-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                    gap: 30px;
+                    padding: 20px;
+                }
+
+                /* Blog Card */
+                .blog-card {
+                    background: white;
+                    border-radius: 16px;
+                    overflow: hidden;
+                    transition: all 0.4s ease;
+                    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+                    height: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    position: relative;
+                }
+
+                .blog-card:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+                }
+
+                .card-image {
+                    height: 220px;
+                    overflow: hidden;
+                    position: relative;
+                }
+
+                .blog-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 0.6s ease;
+                }
+
+                .blog-card:hover .blog-img {
+                    transform: scale(1.1);
+                }
+
+                .category-badge {
+                    position: absolute;
+                    top: 15px;
+                    right: 15px;
+                    color: white;
+                    padding: 6px 14px;
+                    border-radius: 20px;
+                    font-size: 12px;
+                    font-weight: 600;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                    z-index: 2;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+
+                /* Category Colors */
+                .technology-badge {
+                    background: linear-gradient(135deg, #28b779, #219864);
+                }
+
+                .travel-badge {
+                    background: linear-gradient(135deg, #da542e, #c0392b);
+                }
+
+                .food-badge {
+                    background: linear-gradient(135deg, #ffb848, #f39c12);
+                }
+
+                .lifestyle-badge {
+                    background: linear-gradient(135deg, #9b59b6, #8e44ad);
+                }
+
+                .sports-badge {
+                    background: linear-gradient(135deg, #3498db, #2980b9);
+                }
+
+                .education-badge {
+                    background: linear-gradient(135deg, #e74c3c, #c0392b);
+                }
+
+                /* Card Content */
+                .card-content {
+                    padding: 24px;
+                    flex-grow: 1;
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .card-title {
+                    font-size: 18px;
+                    font-weight: 700;
+                    color: #2c3e50;
+                    margin-bottom: 12px;
+                    line-height: 1.4;
+                    transition: color 0.3s ease;
+                }
+
+                .blog-card:hover .card-title {
+                    color: #28b779;
+                }
+
+                .card-excerpt {
+                    color: #7f8c8d;
+                    margin-bottom: 20px;
+                    line-height: 1.6;
+                    flex-grow: 1;
+                    font-size: 14.5px;
+                }
+
+                .card-meta {
+                    margin-bottom: 20px;
+                }
+
+                .author-info {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                }
+
+                .author-avatar {
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    overflow: hidden;
+                    border: 2px solid #eaeaea;
+                    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                }
+
+                .author-avatar img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .meta-details {
+                    display: flex;
+                    flex-direction: column;
+                }
+
+                .author-name {
+                    font-weight: 600;
+                    color: #2c3e50;
+                    font-size: 14px;
+                }
+
+                .publish-date {
+                    font-size: 12px;
+                    color: #95a5a6;
+                }
+
+                /* Card Footer */
+                .card-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    margin-top: auto;
+                    padding-top: 15px;
+                    border-top: 1px solid #f1f1f1;
+                }
+
+                .read-more-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 8px 16px;
+                    background: #f8f9fa;
+                    color: #495057;
+                    border-radius: 6px;
+                    text-decoration: none;
+                    font-weight: 500;
+                    transition: all 0.3s ease;
+                    font-size: 14px;
+                    border: 1px solid #e9ecef;
+                }
+
+                .read-more-btn:hover {
+                    background: #28b779;
+                    color: white;
+                    border-color: #28b779;
+                }
+
+                .read-more-btn i {
+                    margin-left: 6px;
+                    font-size: 12px;
+                    transition: transform 0.3s ease;
+                }
+
+                .read-more-btn:hover i {
+                    transform: translateX(3px);
+                }
+
+                /* Action Buttons */
+                .action-buttons {
+                    display: flex;
+                    gap: 8px;
+                }
+
+                .action-btn {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 6px 12px;
+                    border-radius: 6px;
+                    transition: all 0.3s ease;
+                    text-decoration: none;
+                    font-size: 13px;
+                    font-weight: 500;
+                    gap: 5px;
+                }
+
+                .edit-btn {
+                    background: #e8f5e8;
+                    color: #28b779;
+                    border: 1px solid #d5ecd5;
+                }
+
+                .edit-btn:hover {
+                    background: #28b779;
+                    color: white;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(40, 183, 121, 0.3);
+                }
+
+                .delete-btn {
+                    background: #ffeaea;
+                    color: #e74c3c;
+                    border: 1px solid #f8d7da;
+                }
+
+                .delete-btn:hover {
+                    background: #e74c3c;
+                    color: white;
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+                }
+
+                /* Empty State */
+                .empty-state {
+                    text-align: center;
+                    padding: 80px 20px;
+                    grid-column: 1 / -1;
+                }
+
+                .empty-icon {
+                    font-size: 80px;
+                    color: #e0e0e0;
+                    margin-bottom: 20px;
+                }
+
+                .empty-state h4 {
+                    color: #2c3e50;
+                    margin-bottom: 15px;
+                    font-weight: 600;
+                }
+
+                .empty-state p {
+                    color: #7f8c8d;
+                    font-size: 16px;
+                    margin-bottom: 30px;
+                    max-width: 500px;
+                    margin-left: auto;
+                    margin-right: auto;
+                    line-height: 1.6;
+                }
+
+                /* Responsive Design */
+                @media (max-width: 1200px) {
+                    .blog-grid {
+                        grid-template-columns: repeat(3, 1fr);
+                    }
+                }
+
+                @media (max-width: 992px) {
+                    .blog-grid {
+                        grid-template-columns: repeat(2, 1fr);
+                    }
+
+                    .header-actions {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 12px;
+                    }
+
+                    .search-box input {
+                        width: 200px;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .blog-grid {
+                        grid-template-columns: 1fr;
+                        max-width: 500px;
+                        margin: 0 auto;
+                    }
+
+                    .card-header {
+                        flex-direction: column;
+                        align-items: flex-start;
+                        gap: 15px;
+                    }
+
+                    .search-box input {
+                        width: 100%;
+                    }
+
+                    .card-content {
+                        padding: 20px;
+                    }
+
+                    .card-footer {
+                        flex-direction: column;
+                        gap: 15px;
+                        align-items: flex-start;
+                    }
+
+                    .action-buttons {
+                        width: 100%;
+                        justify-content: flex-end;
+                    }
+                }
+
+                @media (max-width: 576px) {
+                    .card-image {
+                        height: 200px;
+                    }
+
+                    .action-buttons {
+                        flex-direction: column;
+                        width: 100%;
+                    }
+
+                    .action-btn {
+                        width: 100%;
+                        justify-content: center;
+                    }
+                }
+            </style>
+
+            <script>
+                // Add search functionality
+                document.addEventListener('DOMContentLoaded', function () {
+                    const searchInput = document.getElementById('blogSearch');
+                    if (searchInput) {
+                        searchInput.addEventListener('keyup', function () {
+                            const searchText = this.value.toLowerCase();
+                            const blogCards = document.querySelectorAll('.blog-card');
+
+                            blogCards.forEach(card => {
+                                const title = card.querySelector('.card-title').textContent.toLowerCase();
+                                const excerpt = card.querySelector('.card-excerpt').textContent.toLowerCase();
+
+                                if (title.includes(searchText) || excerpt.includes(searchText)) {
+                                    card.style.display = '';
+                                } else {
+                                    card.style.display = 'none';
+                                }
+                            });
+                        });
+                    }
+                });
+            </script>
